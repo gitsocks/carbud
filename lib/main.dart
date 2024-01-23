@@ -12,6 +12,7 @@ class CarbudApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Carbud',
+      routes: {'/vehicle': (context) => Placeholder()},
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,

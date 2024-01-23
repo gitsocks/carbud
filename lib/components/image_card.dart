@@ -4,33 +4,37 @@ class ImageCard extends StatelessWidget {
   final String imageUrl;
   final String cardText;
   final String year;
+  final Function? onTap;
 
   const ImageCard(
       {super.key,
       required this.imageUrl,
       required this.cardText,
-      required this.year});
+      required this.year,
+      this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      borderRadius: BorderRadius.vertical(
+      onTap: () => {
+        if (onTap != null) {onTap!()}
+      },
+      borderRadius: const BorderRadius.vertical(
           top: Radius.circular(8.0), bottom: Radius.circular(8.0)),
-      onTap: () => print('Ripple'),
       child: Card(
         elevation: 4.0,
         margin: const EdgeInsets.all(16.0),
         child: Stack(
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.vertical(
+              borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(8.0), bottom: Radius.circular(8.0)),
               child:
                   // Use ColorFiltered to apply a color filter to the image
                   ColorFiltered(
                 colorFilter: ColorFilter.mode(
                   Colors.black
-                      .withOpacity(0.5), // Adjust the opacity for darkness
+                      .withOpacity(0.3), // Adjust the opacity for darkness
                   BlendMode.darken,
                 ),
                 child: Image.network(
@@ -48,7 +52,7 @@ class ImageCard extends StatelessWidget {
                 children: [
                   Text(
                     year,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
                       color: Color.fromARGB(
@@ -57,7 +61,7 @@ class ImageCard extends StatelessWidget {
                   ), // Add some space between the texts
                   Text(
                     cardText,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 22.0,
                       fontWeight: FontWeight.bold,
                       color: Colors.white, // Text color set to white
