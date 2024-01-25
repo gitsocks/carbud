@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 
 class MyGarageHero extends StatelessWidget {
+  final double heroHeight;
+
+  const MyGarageHero({super.key, required this.heroHeight});
+
   @override
   Widget build(BuildContext context) {
+
     return Stack(
       children: [
         Container(
-          height: 200,
+          height: heroHeight,
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage('assets/garage.jpg'),
@@ -15,7 +20,7 @@ class MyGarageHero extends StatelessWidget {
           ),
         ),
         Container(
-          height: 200,
+          height: heroHeight,
           decoration: BoxDecoration(color: Colors.black.withOpacity(0.5)),
         ),
         const Positioned(

@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
 
 class VehicleDetailsImage extends StatelessWidget {
-  final String imageUrl;
+  final String? imageUrl;
   final String vehicleText;
   final String year;
   final double appBarHeight;
 
-  const VehicleDetailsImage(
-      {Key? key,
-      required this.imageUrl,
-      required this.vehicleText,
-      required this.year,
-      required this.appBarHeight})
+  const VehicleDetailsImage({Key? key,
+    this.imageUrl,
+    required this.vehicleText,
+    required this.year,
+    required this.appBarHeight})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    ImageProvider<Object> vehicleImage;
+
+    if (imageUrl == null) {
+      vehicleImage = const AssetImage('assets/placeholder-car.jpg');
+    } else {
+      vehicleImage = NetworkImage(imageUrl!);
+    }
+
     return Stack(
       children: [
         // Vehicle Image
@@ -23,7 +30,7 @@ class VehicleDetailsImage extends StatelessWidget {
           height: appBarHeight,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: NetworkImage(imageUrl),
+              image: vehicleImage,
               fit: BoxFit.cover,
             ),
           ),
@@ -33,7 +40,7 @@ class VehicleDetailsImage extends StatelessWidget {
           decoration: BoxDecoration(
               color: Colors.black
                   .withOpacity(0.5) // Adjust the color and opacity as needed
-              ),
+          ),
         ),
         Positioned(
           bottom: 16.0,
@@ -64,3 +71,4 @@ class VehicleDetailsImage extends StatelessWidget {
     );
   }
 }
+

@@ -1,20 +1,30 @@
 import 'package:flutter/material.dart';
 
 class ImageCard extends StatelessWidget {
-  final String imageUrl;
+  final String? imageUrl;
   final String cardText;
   final String year;
   final Function? onTap;
+  final BoxConstraints constraints;
 
   const ImageCard(
       {super.key,
       required this.imageUrl,
       required this.cardText,
       required this.year,
-      this.onTap});
+      this.onTap, required this.constraints});
 
   @override
   Widget build(BuildContext context) {
+    Widget loadImage(String? url) {
+      if (url == null) {
+        return Image.asset('assets/placeholder-car.jpg',
+            fit: BoxFit.cover, height: 200.0, width: constraints.maxWidth,);
+      } else {
+        return Image.network(url, fit: BoxFit.cover, height: 200.0, width: constraints.maxWidth,);
+      }
+    };
+
     return InkWell(
       onTap: () => {
         if (onTap != null) {onTap!()}
@@ -29,19 +39,12 @@ class ImageCard extends StatelessWidget {
             ClipRRect(
               borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(8.0), bottom: Radius.circular(8.0)),
-              child:
-                  // Use ColorFiltered to apply a color filter to the image
-                  ColorFiltered(
+              child: ColorFiltered(
                 colorFilter: ColorFilter.mode(
-                  Colors.black
-                      .withOpacity(0.3), // Adjust the opacity for darkness
+                  Colors.black.withOpacity(0.3),
                   BlendMode.darken,
                 ),
-                child: Image.network(
-                  imageUrl,
-                  fit: BoxFit.cover,
-                  height: 200.0, // Set the desired height for the image
-                ),
+                child: loadImage(imageUrl),
               ),
             ),
             Positioned(
@@ -55,10 +58,9 @@ class ImageCard extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(
-                          221, 224, 224, 224), // Darker color for the year
+                      color: Color.fromARGB(221, 224, 224, 224),
                     ),
-                  ), // Add some space between the texts
+                  ),
                   Text(
                     cardText,
                     style: const TextStyle(
