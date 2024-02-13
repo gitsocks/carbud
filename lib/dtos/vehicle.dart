@@ -1,5 +1,5 @@
 class Vehicle {
-  final int id;
+  final String id;
   final String make;
   final String model;
   final int year;
@@ -17,12 +17,12 @@ class Vehicle {
   factory Vehicle.fromJson(Map<String, dynamic> json) {
     return switch (json) {
       {
-        'id': int id,
+        'id': String id,
         'make': String make,
         'model': String model,
         'year': int year,
         'mileage': int mileage,
-        'imageUrl': String imageUrl
+        'imageUrl': String? imageUrl
       } =>
         Vehicle(
             id: id, make: make, model: model, year: year, mileage: mileage, imageUrl: imageUrl),

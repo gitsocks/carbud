@@ -1,33 +1,28 @@
-import 'package:carbud/components/decorated_number_field.dart';
-import 'package:carbud/dtos/new_vehicle.dart';
-import 'package:carbud/dtos/vehicle.dart';
-import 'package:carbud/states/my_garage_state.dart';
-import 'package:carbud/states/vehicle_mileage_state.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
+import 'dart:async';
 
-import 'decorated_text_field.dart';
+import 'package:carbud/components/decorated_number_field.dart';
+import 'package:carbud/dtos/new_mileage_entry.dart';
+import 'package:flutter/cupertino.dart';
 import 'expanded_elevated_button.dart';
 
 class NewMileageEntryForm extends StatefulWidget {
-  const NewMileageEntryForm({super.key});
+  final String vehicleId;
+  final Function(NewMileageEntry) onCreateMileageEntry;
+
+  const NewMileageEntryForm({super.key, required this.vehicleId, required this.onCreateMileageEntry});
 
   @override
   State<NewMileageEntryForm> createState() => _NewMileageEntryForm();
 }
 
 class _NewMileageEntryForm extends State<NewMileageEntryForm> {
-  final makeController = TextEditingController();
-  final modelController = TextEditingController();
-  final yearController = TextEditingController();
-  final initialMileageController = TextEditingController();
+  final distanceController = TextEditingController();
+  final litresController = TextEditingController();
 
   @override
   void dispose() {
-    makeController.dispose();
-    modelController.dispose();
-    yearController.dispose();
-    initialMileageController.dispose();
+    distanceController.dispose();
+    litresController.dispose();
     super.dispose();
   }
 
@@ -36,13 +31,12 @@ class _NewMileageEntryForm extends State<NewMileageEntryForm> {
     return Column(
       children: [
         DecoratedNumberField(
-            label: 'Distance (km)', hintText: '465', controller: makeController),
+            label: 'Distance (km)', hintText: '465', controller: distanceController),
         DecoratedNumberField(
-            label: 'Litres (l)', hintText: '35', controller: modelController),
+            label: 'Litres (l)', hintText: '35', controller: litresController),
         ExpandedElevatedButton(onPressed: () {
-          print(makeController.text);
-          print(modelController.text);
-          print(DateTime.now());
+            var mileageEntry = NewMileageEntry(widget.vehicleId, DateTime.now(), double.parse(distanceController.text), double.parse(litresController.text));
+            widget.onCreateMileageEntry(mileageEntry);
         })
       ],
     );

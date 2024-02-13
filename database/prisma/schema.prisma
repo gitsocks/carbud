@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+    id   String  @id
+    fullname String?
+    vehicles Vehicle[]
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt @default(now())
+}
+
+model Vehicle {
+    id   String @id @default(uuid())
+    make String
+    model String
+    year Int
+    mileage Int
+    imageUrl String?
+    profileId String
+    profile Profile @relation(fields: [profileId], references: [id])
+    mileageEntries Mileage[]
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt @default(now())
+}
+
+model Mileage {
+    id   Int    @id @default(autoincrement())
+    distance Float
+    litres Float
+    date DateTime @default(now())
+    vehicleId String
+    vehicle Vehicle @relation(fields: [vehicleId], references: [id])
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt @default(now())
+}
