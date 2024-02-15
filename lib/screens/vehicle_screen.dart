@@ -5,7 +5,7 @@ import 'package:carbud/components/vehicle_details_floating_action_button.dart';
 import 'package:carbud/dtos/mileage_entry.dart';
 import 'package:carbud/dtos/new_mileage_entry.dart';
 import 'package:carbud/dtos/vehicle.dart';
-import 'package:carbud/main.dart';
+import 'package:carbud/services/mileage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 
@@ -20,15 +20,11 @@ class _VehicleScreenState extends State<VehicleScreen> {
     });
 
     try {
-      var data = await supabase.from('Mileage').select().eq('vehicleId', widget.vehicle.id) as List<dynamic>;
-
-      if (data.isNotEmpty) {
-        _mileageEntries = data.map((e) => MileageEntry.fromJson(e)).toList();
-      }
+      _mileageEntries = await fetchVehicleMileageEntries(widget.vehicle.id);
     } on PostgrestException catch (error) {
-      ErrorSnackBar(message: error.message) as SnackBar;
+      ErrorSnackBar(message: error.message);
     } catch (error) {
-      const ErrorSnackBar(message: 'Something went wrong.') as SnackBar;
+      const ErrorSnackBar(message: 'Something went wrong.');
     } finally {
       setState(() {
         _loading = false;
@@ -37,7 +33,7 @@ class _VehicleScreenState extends State<VehicleScreen> {
   }
 
   Future<void> createMileageEntry(NewMileageEntry entry) async {
-    await supabase.from('Mileage').insert(entry.toJson());
+    await createMileageEntry(entry);
     _fetchMileageEntries();
   }
 
@@ -52,7 +48,10 @@ class _VehicleScreenState extends State<VehicleScreen> {
     return Scaffold(
       body: _loading
           ? const LoadingState()
-          : VehicleDetails(vehicle: widget.vehicle, mileageEntries: _mileageEntries),
+          : VehicleDetails(
+              vehicle: widget.vehicle,
+              mileageEntries: _mileageEntries,
+            ),
       floatingActionButton: _loading
           ? null
           : VehicleDetailsFloatingActionButton(

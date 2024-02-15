@@ -1,8 +1,6 @@
-import 'package:carbud/dtos/vehicle_details_screen_arguments.dart';
 import 'package:carbud/screens/login_screen.dart';
 import 'package:carbud/screens/garage_screen.dart';
 import 'package:carbud/screens/splash_screen.dart';
-import 'package:carbud/screens/vehicle_screen.dart';
 import 'package:carbud/states/garage_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

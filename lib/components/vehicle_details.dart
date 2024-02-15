@@ -12,6 +12,16 @@ class VehicleDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double totalMileage = 0.00;
+    double totalLitres = 0.00;
+
+    for (var entry in mileageEntries) {
+      totalMileage = totalMileage + entry.distance;
+      totalLitres = totalLitres + entry.litres;
+    }
+
+    var averageConsumption = totalMileage / totalLitres;
+
     return CustomScrollView(
       slivers: [
         SliverAppBar(
@@ -25,13 +35,13 @@ class VehicleDetails extends StatelessWidget {
                     vehicleText: '${vehicle.make} ${vehicle.model}',
                     year: vehicle.year.toString(),
                     appBarHeight: constraints.maxHeight - 40),
-                const Padding(
-                  padding: EdgeInsets.all(10.0),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Mileage: 143000Kms'),
-                      Text('Average: 14Km/L')
+                      Text('Mileage: ${totalMileage}Kms'),
+                      Text('Average: ${double.parse(averageConsumption.toStringAsFixed(2))}Km/L')
                     ],
                   ),
                 )

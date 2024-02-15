@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:carbud/components/decorated_text_field.dart';
 import 'package:carbud/components/error_snack_bar.dart';
 import 'package:carbud/main.dart';
 import 'package:flutter/foundation.dart';
@@ -75,22 +76,35 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('Sign In')),
-        body: ListView(
-          padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
-          children: [
-            const Text('Sign in via the magic link with your email below'),
-            const SizedBox(height: 18),
-            TextFormField(
-              controller: _emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
-            ),
-            const SizedBox(height: 18),
-            ElevatedButton(
-              onPressed: _isLoading ? null : _signIn,
-              child: Text(_isLoading ? 'Loading' : 'Send Magic Link'),
-            )
-          ],
-        ));
+      body: Center(
+        child: Container(
+          width: 300,
+          height: 300,
+          child: ListView(
+            padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
+            children: [
+              const Text(
+                '👋 Welcome.',
+                style: TextStyle(fontSize: 30),
+              ),
+              const SizedBox(height: 18),
+              const Text(
+                  'Please sign in via your email. A magic link will be sent to sign you in.'),
+              const SizedBox(height: 18),
+              DecoratedTextField(
+                controller: _emailController,
+                label: 'Email',
+                hintText: 'john.doe@example.com',
+              ),
+              const SizedBox(height: 18),
+              ElevatedButton(
+                onPressed: _isLoading ? null : _signIn,
+                child: Text(_isLoading ? 'Loading' : 'Send Magic Link'),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

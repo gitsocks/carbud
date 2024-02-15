@@ -22,9 +22,10 @@ class _AccountScreenState extends State<AccountScreen> {
 
     try {
       final userId = supabase.auth.currentUser!.id;
-      final data = await supabase.from('Profile').select().eq('id', userId);
 
-      _fullnameController.text = (data['fullname'] ?? '') as String;
+      final data = await supabase.from('Profile').select().eq('id', userId) as dynamic;
+
+      _fullnameController.text = (data[0]['fullname'] ?? '') as String;
     } on PostgrestException catch (error) {
       SnackBar(
         content: Text(error.message),
