@@ -18,6 +18,6 @@ Future<List<MileageEntry>> fetchVehicleMileageEntries(String vehicleId) async {
   return mileageEntries;
 }
 
-Future<void> createMileageEntry(NewMileageEntry entry) async {
+Future<void> createNewMileageEntry(NewMileageEntry entry) async {
   await supabase.from('Mileage').insert(entry.toJson());
 }

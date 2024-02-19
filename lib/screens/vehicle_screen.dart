@@ -33,7 +33,7 @@ class _VehicleScreenState extends State<VehicleScreen> {
   }
 
   Future<void> createMileageEntry(NewMileageEntry entry) async {
-    await createMileageEntry(entry);
+    await createNewMileageEntry(entry);
     _fetchMileageEntries();
   }
 
